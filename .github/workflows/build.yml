@@ -1,0 +1,26 @@
+name: Build Rust for Linux
+
+on:
+  workflow_dispatch: # Позволяет запускать сборку вручную кнопкой
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Rust
+      uses: dtolnay/rust-toolchain@stable
+
+    - name: Run Build Script
+      run: |
+        chmod +x build-linux.sh
+        ./build-linux.sh
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: linux-binary
+        path: target/release/  # Если скрипт сохраняет файл в другое место, путь нужно скорректировать
